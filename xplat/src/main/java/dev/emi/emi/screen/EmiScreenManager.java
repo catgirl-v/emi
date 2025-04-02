@@ -108,6 +108,7 @@ public class EmiScreenManager {
 	// The last stack that was used to draw a tooltip, cleared each frame
 	public static ItemStack lastStackTooltipRendered;
 	private static long lastPlayerInventorySync = 0;
+	private static long lastPlayerInventorySyncFinished = 0;
 	public static EmiPlayerInventory lastPlayerInventory;
 	public static int lastMouseX, lastMouseY;
 	// The stack that was clicked on, for determining when a drag properly starts
@@ -230,12 +231,15 @@ public class EmiScreenManager {
 	}
 
 	private static void updateCraftables() {
-		int minDelay = 400;
-		if (hasSidebarVisible(SidebarType.CRAFTABLES)) {
-			minDelay = 50;
+		int minDelay = 50;
+		long lastPlayerInventorySyncDuration = lastPlayerInventorySyncFinished - lastPlayerInventorySync;
+		minDelay += lastPlayerInventorySyncDuration * 4;
+		if (!hasSidebarVisible(SidebarType.CRAFTABLES)) {
+			minDelay *= 8;
 		}
-		if (lastPlayerInventory == null || Math.abs(System.currentTimeMillis() - lastPlayerInventorySync) >= minDelay) {
-			lastPlayerInventorySync = System.currentTimeMillis();
+		long currentTimeMillis = System.currentTimeMillis();
+		if (lastPlayerInventory == null || Math.abs(currentTimeMillis - lastPlayerInventorySync) >= minDelay) {
+			lastPlayerInventorySync = currentTimeMillis;
 			EmiPlayerInventory inv = EmiPlayerInventory.of(client.player);
 			SidebarPanel searchPanel = getSearchPanel();
 			if (!inv.isEqual(lastPlayerInventory)) {
@@ -250,6 +254,7 @@ public class EmiScreenManager {
 				EmiFavorites.updateSynthetic(inv);
 				repopulatePanels(SidebarType.CRAFTABLES);
 			}
+			lastPlayerInventorySyncFinished = Math.max(lastPlayerInventorySync, System.currentTimeMillis());
 		}
 	}
 
