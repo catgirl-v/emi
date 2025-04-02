@@ -7,7 +7,6 @@ import dev.emi.emi.api.render.EmiRender;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.runtime.EmiDrawContext;
-import net.minecraft.client.gui.DrawContext;
 
 public class GeneratedSlotWidget extends SlotWidget {
 	private static final int INCREMENT = 1000;
@@ -23,16 +22,15 @@ public class GeneratedSlotWidget extends SlotWidget {
 	}
 	
 	@Override
-	public void drawOverlay(DrawContext draw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(draw);
+	public void drawOverlay(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		if (!getStack().isEmpty()) {
 			int off = 1;
 			if (output) {
 				off = 5;
 			}
-			EmiRender.renderIngredientIcon(getStack(), context.raw(), x + off, y + off);
+			EmiRender.renderIngredientIcon(getStack(), context, x + off, y + off);
 		}
-		super.drawOverlay(context.raw(), mouseX, mouseY, delta);
+		super.drawOverlay(context, mouseX, mouseY, delta);
 	}
 	
 	@Override
