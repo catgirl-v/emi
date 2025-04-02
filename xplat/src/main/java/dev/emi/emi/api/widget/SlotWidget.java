@@ -24,7 +24,6 @@ import dev.emi.emi.screen.EmiScreenManager;
 import dev.emi.emi.screen.RecipeScreen;
 import dev.emi.emi.screen.tooltip.EmiTooltip;
 import dev.emi.emi.screen.tooltip.RecipeCostTooltipComponent;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -155,18 +154,16 @@ public class SlotWidget extends Widget {
 	}
 
 	@Override
-	public void render(DrawContext draw, int mouseX, int mouseY, float delta) {
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		EmiPort.setPositionTexShader();
-		EmiDrawContext context = EmiDrawContext.wrap(draw);
 		context.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		drawBackground(draw, mouseX, mouseY, delta);
-		drawStack(draw, mouseX, mouseY, delta);
+		drawBackground(context, mouseX, mouseY, delta);
+		drawStack(context, mouseX, mouseY, delta);
 		context.disableDepthTest();
-		drawOverlay(draw, mouseX, mouseY, delta);
+		drawOverlay(context, mouseX, mouseY, delta);
 	}
 
-	public void drawBackground(DrawContext draw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(draw);
+	public void drawBackground(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		Bounds bounds = getBounds();
 		int width = bounds.width();
 		int height = bounds.height();
@@ -184,25 +181,25 @@ public class SlotWidget extends Widget {
 		}
 	}
 
-	public void drawStack(DrawContext draw, int mouseX, int mouseY, float delta) {
+	public void drawStack(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		Bounds bounds = getBounds();
 		int xOff = (bounds.width() - 16) / 2;
 		int yOff = (bounds.height() - 16) / 2;
-		getStack().render(draw, bounds.x() + xOff, bounds.y() + yOff, delta);
+		getStack().render(context, bounds.x() + xOff, bounds.y() + yOff, delta);
 	}
 
-	public void drawOverlay(DrawContext draw, int mouseX, int mouseY, float delta) {
+	public void drawOverlay(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		Bounds bounds = getBounds();
 		int width = bounds.width();
 		int height = bounds.height();
 		int xOff = (width - 16) / 2;
 		int yOff = (height - 16) / 2;
 		if (catalyst) {
-			EmiRender.renderCatalystIcon(getStack(), draw, x + xOff, y + yOff);
+			EmiRender.renderCatalystIcon(getStack(), context, x + xOff, y + yOff);
 		}
 
 		if (shouldDrawSlotHighlight(mouseX, mouseY)) {
-			drawSlotHighlight(draw, bounds);
+			drawSlotHighlight(context, bounds);
 		}
 	}
 
@@ -210,8 +207,8 @@ public class SlotWidget extends Widget {
 		return getBounds().contains(mouseX, mouseY) && EmiConfig.showHoverOverlay;
 	}
 
-	public void drawSlotHighlight(DrawContext draw, Bounds bounds) {
-		EmiRenderHelper.drawSlotHightlight(EmiDrawContext.wrap(draw), bounds.x() + 1, bounds.y() + 1, bounds.width() - 2, bounds.height() - 2, 200);
+	public void drawSlotHighlight(EmiDrawContext context, Bounds bounds) {
+		EmiRenderHelper.drawSlotHightlight(context, bounds.x() + 1, bounds.y() + 1, bounds.width() - 2, bounds.height() - 2, 200);
 	}
 	
 	@Override
