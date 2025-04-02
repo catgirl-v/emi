@@ -19,7 +19,6 @@ import dev.emi.emi.runtime.EmiDrawContext;
 import dev.emi.emi.screen.StackBatcher.Batchable;
 import dev.emi.emi.screen.tooltip.EmiTextTooltipWrapper;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.OrderedTextTooltipComponent;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.DiffuseLighting;
@@ -104,13 +103,12 @@ public class ItemEmiStack extends EmiStack implements Batchable {
 	}
 
 	@Override
-	public void render(DrawContext draw, int x, int y, float delta, int flags) {
-		EmiDrawContext context = EmiDrawContext.wrap(draw);
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		ItemStack stack = getItemStack();
 		if ((flags & RENDER_ICON) != 0) {
 			DiffuseLighting.enableGuiDepthLighting();
-			draw.drawItemWithoutEntity(stack, x, y);
-			draw.drawItemInSlot(client.textRenderer, stack, x, y, "");
+			context.raw().drawItemWithoutEntity(stack, x, y);
+			context.raw().drawItemInSlot(client.textRenderer, stack, x, y, "");
 		}
 		if ((flags & RENDER_AMOUNT) != 0) {
 			String count = "";
@@ -120,7 +118,7 @@ public class ItemEmiStack extends EmiStack implements Batchable {
 			EmiRenderHelper.renderAmount(context, x, y, EmiPort.literal(count));
 		}
 		if ((flags & RENDER_REMAINDER) != 0) {
-			EmiRender.renderRemainderIcon(this, context.raw(), x, y);
+			EmiRender.renderRemainderIcon(this, context, x, y);
 		}
 	}
 	
@@ -142,8 +140,7 @@ public class ItemEmiStack extends EmiStack implements Batchable {
 	}
 	
 	@Override
-	public void renderForBatch(VertexConsumerProvider vcp, DrawContext draw, int x, int y, int z, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(draw);
+	public void renderForBatch(VertexConsumerProvider vcp, EmiDrawContext context, int x, int y, int z, float delta) {
 		ItemStack stack = getItemStack();
 		ItemRenderer ir = client.getItemRenderer();
 		BakedModel model = ir.getModel(stack, null, null, 0);

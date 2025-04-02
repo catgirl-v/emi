@@ -6,7 +6,6 @@ import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
 import dev.emi.emi.runtime.EmiDrawContext;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 
@@ -40,8 +39,7 @@ public class RecipeButtonWidget extends Widget {
 	}
 
 	@Override
-	public void render(DrawContext raw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		context.resetColor();
 		context.drawTexture(EmiRenderHelper.BUTTONS, x, y, 12, 12, u, v + getTextureOffset(mouseX, mouseY), 12, 12, 256, 256);
 	}

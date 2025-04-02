@@ -3,7 +3,7 @@ package dev.emi.emi.api.widget;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import net.minecraft.client.gui.DrawContext;
+import dev.emi.emi.runtime.EmiDrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 
 public class TooltipWidget extends Widget {
@@ -26,6 +26,6 @@ public class TooltipWidget extends Widget {
 	}
 
 	@Override
-	public void render(DrawContext draw, int mouseX, int mouseY, float delta) {
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 	}
 }

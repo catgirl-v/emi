@@ -13,7 +13,7 @@ import dev.emi.emi.api.render.EmiRenderable;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.data.EmiRecipeCategoryProperties;
-import net.minecraft.client.gui.DrawContext;
+import dev.emi.emi.runtime.EmiDrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -60,12 +60,12 @@ public class EmiRecipeCategory implements EmiRenderable {
 	}
 
 	@Override
-	public void render(DrawContext draw, int x, int y, float delta) {
-		EmiRecipeCategoryProperties.getIcon(this).render(draw, x, y, delta);
+	public void render(EmiDrawContext context, int x, int y, float delta) {
+		EmiRecipeCategoryProperties.getIcon(this).render(context, x, y, delta);
 	}
 
-	public void renderSimplified(DrawContext draw, int x, int y, float delta) {
-		EmiRecipeCategoryProperties.getSimplifiedIcon(this).render(draw, x, y, delta);
+	public void renderSimplified(EmiDrawContext context, int x, int y, float delta) {
+		EmiRecipeCategoryProperties.getSimplifiedIcon(this).render(context, x, y, delta);
 	}
 
 	public List<TooltipComponent> getTooltip() {
