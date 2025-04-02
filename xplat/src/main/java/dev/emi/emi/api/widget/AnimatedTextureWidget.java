@@ -1,7 +1,6 @@
 package dev.emi.emi.api.widget;
 
 import dev.emi.emi.runtime.EmiDrawContext;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.Identifier;
 
 public class AnimatedTextureWidget extends TextureWidget {
@@ -23,8 +22,7 @@ public class AnimatedTextureWidget extends TextureWidget {
 	}
 
 	@Override
-	public void render(DrawContext draw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(draw);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		int subTime = (int) (System.currentTimeMillis() % time);
 		if (endToStart ^ fullToEmpty) {
 			subTime = time - subTime;
