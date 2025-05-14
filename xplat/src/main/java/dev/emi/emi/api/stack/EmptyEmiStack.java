@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.ApiStatus;
 
 import dev.emi.emi.EmiPort;
-import net.minecraft.client.gui.DrawContext;
+import dev.emi.emi.runtime.EmiDrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -76,7 +76,7 @@ public class EmptyEmiStack extends EmiStack {
 	}
 
 	@Override
-	public void render(DrawContext draw, int x, int y, float delta, int flags) {
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 	}
 
 	@Override

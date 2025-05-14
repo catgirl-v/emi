@@ -22,7 +22,6 @@ import dev.emi.emi.runtime.EmiLog;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.ingredients.ITypedIngredient;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.text.Text;
 
@@ -66,17 +65,16 @@ public class JemiSlotWidget extends SlotWidget {
 	}
 
 	@Override
-	public void render(DrawContext raw, int mouseX, int mouseY, float delta) {
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		if (slot.background != null) {
-			slot.background.drawable().draw(raw, x + 1 + slot.background.xOff(), y + 1 + slot.background.yOff());
+			slot.background.drawable().draw(context.raw(), x + 1 + slot.background.xOff(), y + 1 + slot.background.yOff());
 		}
-		super.render(raw, mouseX, mouseY, delta);
+		super.render(context, mouseX, mouseY, delta);
 	}
 
 	@Override
 	@SuppressWarnings({"rawtypes", "unchecked"})
-	public void drawStack(DrawContext raw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void drawStack(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		IIngredientRenderer renderer = getRenderer();
 		if (renderer != null) {
 			ITypedIngredient<?> typed = getIngredient();
@@ -90,12 +88,11 @@ public class JemiSlotWidget extends SlotWidget {
 			context.pop();
 			return;
 		}
-		super.drawStack(context.raw(), mouseX, mouseY, delta);
+		super.drawStack(context, mouseX, mouseY, delta);
 	}
 
 	@Override
-	public void drawOverlay(DrawContext raw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void drawOverlay(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		if (slot.overlay != null) {
 			context.enableBlend();
 			context.push();
@@ -103,7 +100,7 @@ public class JemiSlotWidget extends SlotWidget {
 			slot.overlay.drawable().draw(context.raw(), x + 1 + slot.overlay.xOff(), y + 1 + slot.overlay.yOff());
 			context.pop();
 		}
-		super.drawOverlay(context.raw(), mouseX, mouseY, delta);
+		super.drawOverlay(context, mouseX, mouseY, delta);
 	}
 
 	@SuppressWarnings("unchecked")

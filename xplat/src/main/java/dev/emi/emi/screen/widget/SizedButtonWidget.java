@@ -10,7 +10,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import dev.emi.emi.EmiPort;
 import dev.emi.emi.EmiRenderHelper;
 import dev.emi.emi.runtime.EmiDrawContext;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -62,7 +61,7 @@ public class SizedButtonWidget extends ButtonWidget {
 		}
 		return v;
 	}
-	
+
 	@Override
 	public void renderButton(DrawContext raw, int mouseX, int mouseY, float delta) {
 		EmiDrawContext context = EmiDrawContext.wrap(raw);
@@ -71,8 +70,7 @@ public class SizedButtonWidget extends ButtonWidget {
 		if (this.isMouseOver(mouseX, mouseY) && text != null && this.active) {
 			context.push();
 			context.disableDepthTest();
-			MinecraftClient client = MinecraftClient.getInstance();
-			EmiRenderHelper.drawTooltip(client.currentScreen, context, text.get().stream().map(EmiPort::ordered).map(TooltipComponent::of).toList(), mouseX, mouseY);
+			context.drawTooltip(text.get(), mouseX, mouseY);
 			context.pop();
 		}
 	}

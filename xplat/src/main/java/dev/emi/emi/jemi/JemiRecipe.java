@@ -30,7 +30,6 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.library.focus.FocusGroup;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.recipe.Recipe;
@@ -160,8 +159,7 @@ public class JemiRecipe<T> implements EmiRecipe {
 		}
 
 		@Override
-		public void render(DrawContext draw, int mouseX, int mouseY, float delta) {
-			EmiDrawContext context = EmiDrawContext.wrap(draw);
+		public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 			context.push();
 			context.matrices().translate(x, y, 0);
 			IDrawable background = category.getBackground();

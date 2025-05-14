@@ -16,7 +16,6 @@ import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.IIngredientTypeWithSubtypes;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.nbt.NbtCompound;
@@ -48,8 +47,7 @@ public class JemiStack<T> extends EmiStack {
 	}
 
 	@Override
-	public void render(DrawContext raw, int x, int y, float delta, int flags) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		int xOff = (16 - renderer.getWidth()) / 2;
 		int yOff = (16 - renderer.getHeight()) / 2;
 		context.push();

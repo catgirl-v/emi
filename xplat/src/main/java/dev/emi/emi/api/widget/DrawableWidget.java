@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 import dev.emi.emi.runtime.EmiDrawContext;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 
 public class DrawableWidget extends Widget implements WidgetTooltipHolder<DrawableWidget> {
@@ -37,16 +36,15 @@ public class DrawableWidget extends Widget implements WidgetTooltipHolder<Drawab
 	}
 
 	@Override
-	public void render(DrawContext draw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(draw);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		context.push();
 		context.matrices().translate(x, y, 0);
-		consumer.render(context.raw(), mouseX, mouseY, delta);
+		consumer.render(context, mouseX, mouseY, delta);
 		context.pop();
 	}
 
 	public static interface DrawableWidgetConsumer {
 
-		void render(DrawContext draw, int mouseX, int mouseY, float delta);
+		void render(EmiDrawContext context, int mouseX, int mouseY, float delta);
 	}
 }
