@@ -155,18 +155,16 @@ public class SlotWidget extends Widget {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(matrices);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		EmiPort.setPositionTexShader();
 		context.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		drawBackground(context.raw(), mouseX, mouseY, delta);
-		drawStack(context.raw(), mouseX, mouseY, delta);
+		drawBackground(context, mouseX, mouseY, delta);
+		drawStack(context, mouseX, mouseY, delta);
 		context.disableDepthTest();
-		drawOverlay(context.raw(), mouseX, mouseY, delta);
+		drawOverlay(context, mouseX, mouseY, delta);
 	}
 
-	public void drawBackground(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(matrices);
+	public void drawBackground(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		Bounds bounds = getBounds();
 		int width = bounds.width();
 		int height = bounds.height();
@@ -184,25 +182,25 @@ public class SlotWidget extends Widget {
 		}
 	}
 
-	public void drawStack(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+	public void drawStack(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		Bounds bounds = getBounds();
 		int xOff = (bounds.width() - 16) / 2;
 		int yOff = (bounds.height() - 16) / 2;
-		getStack().render(matrices, bounds.x() + xOff, bounds.y() + yOff, delta);
+		getStack().render(context, bounds.x() + xOff, bounds.y() + yOff, delta);
 	}
 
-	public void drawOverlay(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+	public void drawOverlay(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		Bounds bounds = getBounds();
 		int width = bounds.width();
 		int height = bounds.height();
 		int xOff = (width - 16) / 2;
 		int yOff = (height - 16) / 2;
 		if (catalyst) {
-			EmiRender.renderCatalystIcon(getStack(), matrices, x + xOff, y + yOff);
+			EmiRender.renderCatalystIcon(getStack(), context, x + xOff, y + yOff);
 		}
 
 		if (shouldDrawSlotHighlight(mouseX, mouseY)) {
-			drawSlotHighlight(matrices, bounds);
+			drawSlotHighlight(context, bounds);
 		}
 	}
 
@@ -210,8 +208,8 @@ public class SlotWidget extends Widget {
 		return getBounds().contains(mouseX, mouseY) && EmiConfig.showHoverOverlay;
 	}
 
-	public void drawSlotHighlight(MatrixStack matrices, Bounds bounds) {
-		EmiRenderHelper.drawSlotHightlight(EmiDrawContext.wrap(matrices), bounds.x() + 1, bounds.y() + 1, bounds.width() - 2, bounds.height() - 2, 200);
+	public void drawSlotHighlight(EmiDrawContext context, Bounds bounds) {
+		EmiRenderHelper.drawSlotHightlight(context, bounds.x() + 1, bounds.y() + 1, bounds.width() - 2, bounds.height() - 2, 200);
 	}
 	
 	@Override

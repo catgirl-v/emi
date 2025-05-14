@@ -47,8 +47,7 @@ public class JemiStack<T> extends EmiStack {
 	}
 
 	@Override
-	public void render(MatrixStack raw, int x, int y, float delta, int flags) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		int xOff = (16 - renderer.getWidth()) / 2;
 		int yOff = (16 - renderer.getHeight()) / 2;
 		context.push();
