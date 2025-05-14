@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.Items;
 import org.objectweb.asm.Type;
 
 import com.google.common.collect.Lists;
@@ -306,5 +308,12 @@ public class EmiAgnosForge extends EmiAgnos {
 			}
 		}
 		return fuelMap;
+	}
+
+	@Override
+	protected boolean isEnchantableAgnos(ItemStack stack, Enchantment enchantment) {
+		ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
+		enchantedBook.addEnchantment(enchantment, enchantment.getMaxLevel());
+		return stack.isBookEnchantable(enchantedBook);
 	}
 }
