@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.Items;
 import net.minecraft.item.PotionItem;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.neoforged.neoforge.client.ClientHooks;
@@ -314,5 +316,12 @@ public class EmiAgnosNeoForge extends EmiAgnos {
 			}
 		}
 		return fuelMap;
+	}
+
+	@Override
+	protected boolean isEnchantableAgnos(ItemStack stack, Enchantment enchantment) {
+		ItemStack enchantedBook = new ItemStack(Items.ENCHANTED_BOOK);
+		enchantedBook.addEnchantment(enchantment, enchantment.getMaxLevel());
+		return stack.isBookEnchantable(enchantedBook);
 	}
 }
