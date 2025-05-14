@@ -40,8 +40,7 @@ public class ButtonWidget extends Widget {
 	}
 	
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(matrices);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		int v = this.v;
 		boolean active = this.isActive.getAsBoolean();
 		if (!active) {

@@ -28,17 +28,15 @@ public class JemiTankWidget extends TankWidget {
 	}
 
 	@Override
-	public void render(MatrixStack raw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		if (slot.background != null) {
 			slot.background.drawable().draw(context.raw(), x + 1 + slot.background.xOff(), y + 1 + slot.background.yOff());
 		}
-		super.render(context.raw(), mouseX, mouseY, delta);
+		super.render(context, mouseX, mouseY, delta);
 	}
 
 	@Override
-	public void drawOverlay(MatrixStack raw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void drawOverlay(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		if (slot.overlay != null) {
 			context.enableBlend();
 			context.push();
@@ -46,7 +44,7 @@ public class JemiTankWidget extends TankWidget {
 			slot.overlay.drawable().draw(context.raw(), x + 1 + slot.overlay.xOff(), y + 1 + slot.overlay.yOff());
 			context.pop();
 		}
-		super.drawOverlay(context.raw(), mouseX, mouseY, delta);
+		super.drawOverlay(context, mouseX, mouseY, delta);
 	}
 
 	@Override

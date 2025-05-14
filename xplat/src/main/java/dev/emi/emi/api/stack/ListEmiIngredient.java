@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 
 import dev.emi.emi.EmiPort;
 import dev.emi.emi.api.render.EmiRender;
+import dev.emi.emi.runtime.EmiDrawContext;
 import dev.emi.emi.screen.tooltip.EmiTextTooltipWrapper;
 import dev.emi.emi.screen.tooltip.IngredientTooltipComponent;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
@@ -83,17 +84,17 @@ public class ListEmiIngredient implements EmiIngredient {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int x, int y, float delta, int flags) {
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		int item = (int) (System.currentTimeMillis() / 1000 % ingredients.size());
 		EmiIngredient current = ingredients.get(item);
 		if ((flags & RENDER_ICON) != 0) {
-			current.render(matrices, x, y, delta, -1 ^ RENDER_AMOUNT);
+			current.render(context, x, y, delta, -1 ^ RENDER_AMOUNT);
 		}
 		if ((flags & RENDER_AMOUNT) != 0) {
-			current.copy().setAmount(amount).render(matrices, x, y, delta, RENDER_AMOUNT);
+			current.copy().setAmount(amount).render(context, x, y, delta, RENDER_AMOUNT);
 		}
 		if ((flags & RENDER_INGREDIENT) != 0) {
-			EmiRender.renderIngredientIcon(this, matrices, x, y);
+			EmiRender.renderIngredientIcon(this, context, x, y);
 		}
 	}
 

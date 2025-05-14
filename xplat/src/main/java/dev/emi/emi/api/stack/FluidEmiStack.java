@@ -12,6 +12,7 @@ import dev.emi.emi.EmiPort;
 import dev.emi.emi.api.render.EmiRender;
 import dev.emi.emi.api.render.EmiTooltipComponents;
 import dev.emi.emi.platform.EmiAgnos;
+import dev.emi.emi.runtime.EmiDrawContext;
 import dev.emi.emi.screen.tooltip.EmiTextTooltipWrapper;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.util.math.MatrixStack;
@@ -69,12 +70,12 @@ public class FluidEmiStack extends EmiStack {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int x, int y, float delta, int flags) {
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		if ((flags & RENDER_ICON) != 0) {
-			EmiAgnos.renderFluid(this, matrices, x, y, delta);
+			EmiAgnos.renderFluid(this, context.matrices(), x, y, delta);
 		}
 		if ((flags & RENDER_REMAINDER) != 0) {
-			EmiRender.renderRemainderIcon(this, matrices, x, y);
+			EmiRender.renderRemainderIcon(this, context, x, y);
 		}
 	}
 

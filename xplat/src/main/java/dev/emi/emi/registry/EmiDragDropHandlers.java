@@ -8,8 +8,8 @@ import com.google.common.collect.Maps;
 
 import dev.emi.emi.api.EmiDragDropHandler;
 import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.runtime.EmiDrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class EmiDragDropHandlers {
 	public static Map<Class<?>, List<EmiDragDropHandler<?>>> fromClass = Maps.newHashMap();
@@ -21,14 +21,14 @@ public class EmiDragDropHandlers {
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public static void render(Screen screen, EmiIngredient stack, MatrixStack matrices, int mouseX, int mouseY, float delta) {
+	public static void render(Screen screen, EmiIngredient stack, EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		if (fromClass.containsKey(screen.getClass())) {
 			for (EmiDragDropHandler handler : fromClass.get(screen.getClass())) {
-				handler.render(screen, stack, matrices, mouseX, mouseY, delta);
+				handler.render(screen, stack, context, mouseX, mouseY, delta);
 			}
 		}
 		for (EmiDragDropHandler handler : generic) {
-			handler.render(screen, stack, matrices, mouseX, mouseY, delta);
+			handler.render(screen, stack, context, mouseX, mouseY, delta);
 		}
 	}
 	
