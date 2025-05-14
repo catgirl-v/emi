@@ -11,11 +11,10 @@ import dev.emi.emi.registry.EmiPluginContainer;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.component.ComponentChanges;
-import net.minecraft.component.ComponentMap;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 
 public abstract class EmiAgnos {
@@ -147,4 +146,10 @@ public abstract class EmiAgnos {
 	}
 
 	protected abstract Map<Item, Integer> getFuelMapAgnos();
+
+	public static boolean isEnchantable(ItemStack stack, Enchantment enchantment) {
+		return delegate.isEnchantableAgnos(stack, enchantment);
+	}
+
+	protected abstract boolean isEnchantableAgnos(ItemStack stack, Enchantment enchantment);
 }

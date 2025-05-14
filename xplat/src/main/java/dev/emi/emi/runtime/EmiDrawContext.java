@@ -1,5 +1,7 @@
 package dev.emi.emi.runtime;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import dev.emi.emi.EmiPort;
 import dev.emi.emi.api.stack.EmiIngredient;
 import net.minecraft.client.MinecraftClient;
@@ -97,6 +99,22 @@ public class EmiDrawContext {
 
 	public void drawCenteredTextWithShadow(Text text, int x, int y, int color) {
 		context.drawCenteredTextWithShadow(client.textRenderer, text.asOrderedText(), x, y, color);
+	}
+
+	public void enableDepthTest() {
+		RenderSystem.enableDepthTest();
+	}
+
+	public void disableDepthTest() {
+		RenderSystem.disableDepthTest();
+	}
+
+	public void enableBlend() {
+		RenderSystem.enableBlend();
+	}
+
+	public void disableBlend() {
+		RenderSystem.disableBlend();
 	}
 
 	public void resetColor() {
