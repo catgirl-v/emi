@@ -114,14 +114,13 @@ public class TagEmiIngredient implements EmiIngredient {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int x, int y, float delta, int flags) {
-		EmiDrawContext context = EmiDrawContext.wrap(matrices);
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		MinecraftClient client = MinecraftClient.getInstance();
 
 		if ((flags & RENDER_ICON) != 0) {
 			if (!tagKey.hasCustomModel()) {
 				if (stacks.size() > 0) {
-					stacks.get(0).render(context.raw(), x, y, delta, -1 ^ RENDER_AMOUNT);
+					stacks.get(0).render(context, x, y, delta, -1 ^ RENDER_AMOUNT);
 				}
 			} else {
 				BakedModel model = ((BakedModelManagerAccessor) client.getBakedModelManager()).getModels()
@@ -167,10 +166,10 @@ public class TagEmiIngredient implements EmiIngredient {
 			EmiRenderHelper.renderAmount(context, x, y, EmiPort.literal(count));
 		}
 		if ((flags & RENDER_INGREDIENT) != 0) {
-			EmiRender.renderTagIcon(this, context.raw(), x, y);
+			EmiRender.renderTagIcon(this, context, x, y);
 		}
 		if ((flags & RENDER_REMAINDER) != 0) {
-			EmiRender.renderRemainderIcon(this, context.raw(), x, y);
+			EmiRender.renderRemainderIcon(this, context, x, y);
 		}
 	}
 
