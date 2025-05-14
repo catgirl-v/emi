@@ -16,6 +16,7 @@ import dev.emi.emi.mixin.accessor.BakedModelManagerAccessor;
 import dev.emi.emi.mixin.accessor.ItemRendererAccessor;
 import dev.emi.emi.registry.EmiTags;
 import dev.emi.emi.runtime.EmiDrawContext;
+import dev.emi.emi.runtime.EmiTagKey;
 import dev.emi.emi.screen.tooltip.EmiTextTooltipWrapper;
 import dev.emi.emi.screen.tooltip.RemainderTooltipComponent;
 import dev.emi.emi.screen.tooltip.TagTooltipComponent;
@@ -40,18 +41,29 @@ public class TagEmiIngredient implements EmiIngredient {
 	private final Identifier id;
 	private List<EmiStack> stacks;
 	public final TagKey<?> key;
+	private final EmiTagKey<?> tagKey;
 	private long amount;
 	private float chance = 1;
 
 	@ApiStatus.Internal
 	public TagEmiIngredient(TagKey<?> key, long amount) {
-		this(key, EmiTags.getValues(key), amount);
+		this(EmiTagKey.of(key), amount);
 	}
 
 	@ApiStatus.Internal
 	public TagEmiIngredient(TagKey<?> key, List<EmiStack> stacks, long amount) {
+		this(EmiTagKey.of(key), stacks, amount);
+	}
+
+	@ApiStatus.Internal
+	public TagEmiIngredient(EmiTagKey<?> key, long amount) {
+		this(key, EmiTags.getValues(key), amount);
+	}
+
+	private TagEmiIngredient(EmiTagKey<?> key, List<EmiStack> stacks, long amount) {
 		this.id = key.id();
-		this.key = key;
+		this.key = key.raw();
+		this.tagKey = key;
 		this.stacks = stacks;
 		this.amount = amount;
 	}
@@ -68,7 +80,7 @@ public class TagEmiIngredient implements EmiIngredient {
 
 	@Override
 	public EmiIngredient copy() {
-		EmiIngredient stack = new TagEmiIngredient(key, amount);
+		EmiIngredient stack = new TagEmiIngredient(tagKey, amount);
 		stack.setChance(chance);
 		return stack;
 	}
@@ -106,13 +118,13 @@ public class TagEmiIngredient implements EmiIngredient {
 		MinecraftClient client = MinecraftClient.getInstance();
 
 		if ((flags & RENDER_ICON) != 0) {
-			if (!EmiTags.hasCustomModel(key)) {
+			if (!tagKey.hasCustomModel()) {
 				if (stacks.size() > 0) {
 					stacks.get(0).render(context.raw(), x, y, delta, -1 ^ RENDER_AMOUNT);
 				}
 			} else {
 				BakedModel model = ((BakedModelManagerAccessor) client.getBakedModelManager()).getModels()
-					.getOrDefault(EmiTags.getCustomModel(key), client.getBakedModelManager().getMissingModel());
+					.getOrDefault(tagKey.getCustomModel(), client.getBakedModelManager().getMissingModel());
 					
 				MatrixStack vs = RenderSystem.getModelViewStack();
 				vs.push();
@@ -146,7 +158,7 @@ public class TagEmiIngredient implements EmiIngredient {
 				RenderSystem.applyModelViewMatrix();
 			}
 		}
-		if ((flags & RENDER_AMOUNT) != 0 && !key.registry().equals(EmiPort.getFluidRegistry().getKey())) {
+		if ((flags & RENDER_AMOUNT) != 0 && !tagKey.isOf(EmiPort.getFluidRegistry())) {
 			String count = "";
 			if (amount != 1) {
 				count += amount;
@@ -164,11 +176,11 @@ public class TagEmiIngredient implements EmiIngredient {
 	@Override
 	public List<TooltipComponent> getTooltip() {
 		List<TooltipComponent> list = Lists.newArrayList();
-		list.add(new EmiTextTooltipWrapper(this, EmiPort.ordered(EmiTags.getTagName(key))));
+		list.add(new EmiTextTooltipWrapper(this, EmiPort.ordered(tagKey.getTagName())));
 		if (EmiUtil.showAdvancedTooltips()) {
 			list.add(TooltipComponent.of(EmiPort.ordered(EmiPort.literal("#" + id, Formatting.DARK_GRAY))));
 		}
-		if (key.registry().equals(EmiPort.getFluidRegistry().getKey()) && amount > 1) {
+		if (tagKey.isOf(EmiPort.getFluidRegistry()) && amount > 1) {
 			list.add(TooltipComponent.of(EmiPort.ordered(EmiRenderHelper.getAmountText(this, amount))));
 		}
 		if (EmiConfig.appendModId) {
