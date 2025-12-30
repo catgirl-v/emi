@@ -91,8 +91,7 @@ public class EmiInfoRecipe implements EmiRecipe {
 				manager.scroll(1);
 			});
 		}
-		widgets.addDrawable(0, y, 0, 0, (raw, mouseX, mouseY, delta) -> {
-			EmiDrawContext context = EmiDrawContext.wrap(raw);
+		widgets.addDrawable(0, y, 0, 0, (context, mouseX, mouseY, delta) -> {
 			int lo = manager.start();
 			for (int i = 0; i < lineCount; i++) {
 				int l = lo + i;
