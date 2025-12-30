@@ -22,7 +22,6 @@ import dev.emi.emi.screen.tooltip.EmiTextTooltipWrapper;
 import dev.emi.emi.screen.tooltip.RemainderTooltipComponent;
 import dev.emi.emi.screen.tooltip.TagTooltipComponent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.LightmapTextureManager;
@@ -114,14 +113,13 @@ public class TagEmiIngredient implements EmiIngredient {
 	}
 
 	@Override
-	public void render(DrawContext draw, int x, int y, float delta, int flags) {
-		EmiDrawContext context = EmiDrawContext.wrap(draw);
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		MinecraftClient client = MinecraftClient.getInstance();
 
 		if ((flags & RENDER_ICON) != 0) {
 			if (!tagKey.hasCustomModel()) {
 				if (stacks.size() > 0) {
-					stacks.get(0).render(context.raw(), x, y, delta, -1 ^ RENDER_AMOUNT);
+					stacks.get(0).render(context, x, y, delta, -1 ^ RENDER_AMOUNT);
 				}
 			} else {
 				BakedModel model = EmiAgnos.getBakedTagModel(tagKey.getCustomModel());
@@ -161,10 +159,10 @@ public class TagEmiIngredient implements EmiIngredient {
 			EmiRenderHelper.renderAmount(context, x, y, EmiPort.literal(count));
 		}
 		if ((flags & RENDER_INGREDIENT) != 0) {
-			EmiRender.renderTagIcon(this, context.raw(), x, y);
+			EmiRender.renderTagIcon(this, context, x, y);
 		}
 		if ((flags & RENDER_REMAINDER) != 0) {
-			EmiRender.renderRemainderIcon(this, context.raw(), x, y);
+			EmiRender.renderRemainderIcon(this, context, x, y);
 		}
 	}
 

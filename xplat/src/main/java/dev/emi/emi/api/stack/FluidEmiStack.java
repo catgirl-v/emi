@@ -17,7 +17,6 @@ import dev.emi.emi.api.render.EmiTooltipComponents;
 import dev.emi.emi.platform.EmiAgnos;
 import dev.emi.emi.runtime.EmiDrawContext;
 import dev.emi.emi.screen.tooltip.EmiTextTooltipWrapper;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.nbt.NbtCompound;
@@ -73,8 +72,7 @@ public class FluidEmiStack extends EmiStack {
 	}
 
 	@Override
-	public void render(DrawContext raw, int x, int y, float delta, int flags) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		if ((flags & RENDER_ICON) != 0) {
 			context.push();
 			context.matrices().translate(0, 0, 100);
@@ -82,7 +80,7 @@ public class FluidEmiStack extends EmiStack {
 			context.pop();
 		}
 		if ((flags & RENDER_REMAINDER) != 0) {
-			EmiRender.renderRemainderIcon(this, context.raw(), x, y);
+			EmiRender.renderRemainderIcon(this, context, x, y);
 		}
 	}
 

@@ -13,7 +13,6 @@ import dev.emi.emi.bom.BoM;
 import dev.emi.emi.runtime.EmiDrawContext;
 import dev.emi.emi.runtime.EmiHistory;
 import dev.emi.emi.widget.RecipeDefaultButtonWidget;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
 
@@ -43,17 +42,16 @@ public class ResolutionButtonWidget extends ButtonWidget {
 				u = 36;
 			}
 		}
-		EmiTexture.SLOT.render(context.raw(), x, y, delta);
+		EmiTexture.SLOT.render(context, x, y, delta);
 		context.drawTexture(EmiRenderHelper.WIDGETS, x, y, u, 128, width, height);
 		if (this.isHovered()) {
-			MinecraftClient client = MinecraftClient.getInstance();
-			raw.drawTooltip(client.textRenderer, List.of(
+			context.drawTooltip(List.of(
 				EmiPort.translatable("tooltip.emi.resolution"),
 				EmiPort.translatable("tooltip.emi.select_resolution"),
 				EmiPort.translatable("tooltip.emi.default_resolution"),
 				EmiPort.translatable("tooltip.emi.clear_resolution")
 			), mouseX, mouseY);
 		}
-		stack.render(raw, x + 1, y + 1, delta);
+		stack.render(context, x + 1, y + 1, delta);
 	}
 }

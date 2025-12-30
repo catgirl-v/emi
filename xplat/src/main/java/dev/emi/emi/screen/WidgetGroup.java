@@ -49,7 +49,7 @@ public class WidgetGroup implements WidgetHolder {
 		widgets.add(new RecipeBackground(-4, -4, width + 8, height + 8));
 		widgets.add(new TextWidget(EmiPort.ordered(EmiPort.translatable("emi.error.recipe.render")),
 			width / 2, height / 2 - 5, Formatting.RED.getColorValue(), true).horizontalAlign(Alignment.CENTER));
-		widgets.add(new DrawableWidget(0, 0, width, height, (raw, mouseX, mouseY, delta) -> {})
+		widgets.add(new DrawableWidget(0, 0, width, height, (context, mouseX, mouseY, delta) -> {})
 			.tooltip((i, j) -> EmiUtil.getStackTrace(e).stream()
 				.map(EmiPort::literal).map(EmiPort::ordered).map(TooltipComponent::of).toList()));
 	}
@@ -141,10 +141,9 @@ public class WidgetGroup implements WidgetHolder {
 				case ERROR -> 0xCCCC0000;
 				case WARNING -> 0xCCCCCC00;
 			};
-			addDrawable(0, 0, width, height, (raw, mouseX, mouseY, delta) -> {
-				EmiDrawContext draw = EmiDrawContext.wrap(raw);
-				draw.fill(-2, -3, width, 2, errorColor);
-				draw.fill(-2, height + 1, width + 4, 2, errorColor);
+			addDrawable(0, 0, width, height, (context, mouseX, mouseY, delta) -> {
+				context.fill(-2, -3, width, 2, errorColor);
+				context.fill(-2, height + 1, width + 4, 2, errorColor);
 			});
 			addText(EmiPort.literal("!", Formatting.BOLD), width, -2, 0xFF000000 | errorColor, true);
 			addTooltip(tooltip, width - 2, -4, 8, 16);

@@ -17,10 +17,10 @@ import dev.emi.emi.api.stack.FluidEmiStack;
 import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.config.HelpLevel;
 import dev.emi.emi.registry.EmiRecipeFiller;
+import dev.emi.emi.runtime.EmiDrawContext;
 import dev.emi.emi.screen.MicroTextRenderer;
 import dev.emi.emi.screen.StackBatcher.Batchable;
 import dev.emi.emi.screen.tooltip.RecipeTooltipComponent;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.text.Text;
@@ -74,12 +74,11 @@ public class EmiFavorite implements EmiIngredient, Batchable {
 	}
 
 	@Override
-	public void render(DrawContext raw, int x, int y, float delta, int flags) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		if (recipe != null) {
 			flags |= EmiIngredient.RENDER_AMOUNT;
 		}
-		stack.render(context.raw(), x, y, delta, flags);
+		stack.render(context, x, y, delta, flags);
 		if ((flags & EmiIngredient.RENDER_INGREDIENT) > 0 && recipe != null) {
 			EmiRenderHelper.renderRecipeFavorite(stack, context, x, y);
 		}
@@ -132,9 +131,9 @@ public class EmiFavorite implements EmiIngredient, Batchable {
 	}
 
 	@Override
-	public void renderForBatch(VertexConsumerProvider vcp, DrawContext raw, int x, int y, int z, float delta) {
+	public void renderForBatch(VertexConsumerProvider vcp, EmiDrawContext context, int x, int y, int z, float delta) {
 		if (stack instanceof Batchable b) {
-			b.renderForBatch(vcp, raw, x, y, z, delta);
+			b.renderForBatch(vcp, context, x, y, z, delta);
 		}
 	}
 
@@ -145,8 +144,8 @@ public class EmiFavorite implements EmiIngredient, Batchable {
 		}
 
 		@Override
-		public void render(DrawContext raw, int x, int y, float delta, int flags) {
-			super.render(raw, x, y, delta, flags & (~EmiIngredient.RENDER_INGREDIENT));
+		public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
+			super.render(context, x, y, delta, flags & (~EmiIngredient.RENDER_INGREDIENT));
 		}
 	}
 
@@ -173,8 +172,7 @@ public class EmiFavorite implements EmiIngredient, Batchable {
 		}
 
 		@Override
-		public void render(DrawContext raw, int x, int y, float delta, int flags) {
-			EmiDrawContext context = EmiDrawContext.wrap(raw);
+		public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 			int color = 0x915900; // Orange
 			if (state == 1) {
 				color = 0x790091; // Magenta
@@ -184,7 +182,7 @@ public class EmiFavorite implements EmiIngredient, Batchable {
 				color = 0x911300; // Red
 			}
 			//context.fill(x - 1, y - 1, 18, 18, 0x44000000 | color);
-			stack.render(context.raw(), x, y, delta, flags & (~EmiIngredient.RENDER_AMOUNT));
+			stack.render(context, x, y, delta, flags & (~EmiIngredient.RENDER_AMOUNT));
 			MicroTextRenderer.render(context, amount, stack.getEmiStacks().get(0) instanceof FluidEmiStack, 18, x + 17, y + 17, color);
 		}
 
