@@ -5,8 +5,8 @@ import java.util.List;
 
 import dev.emi.emi.api.render.EmiRenderable;
 import dev.emi.emi.registry.EmiTags;
+import dev.emi.emi.runtime.EmiDrawContext;
 import dev.emi.emi.runtime.EmiTagKey;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -45,11 +45,11 @@ public interface EmiIngredient extends EmiRenderable {
 	EmiIngredient setChance(float chance);
 
 	@Override
-	default void render(DrawContext draw, int x, int y, float delta) {
-		render(draw, x, y, delta, -1);
+	default void render(EmiDrawContext context, int x, int y, float delta) {
+		render(context, x, y, delta, -1);
 	}
 
-	void render(DrawContext draw, int x, int y, float delta, int flags);
+	void render(EmiDrawContext context, int x, int y, float delta, int flags);
 
 	List<TooltipComponent> getTooltip();
 

@@ -2,7 +2,6 @@ package dev.emi.emi.api.widget;
 
 import dev.emi.emi.runtime.EmiDrawContext;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.OrderedText;
 
 public class TextWidget extends Widget {
@@ -41,8 +40,7 @@ public class TextWidget extends Widget {
 	}
 
 	@Override
-	public void render(DrawContext draw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(draw);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		context.push();
 		int xOff = horizontalAlignment.offset(CLIENT.textRenderer.getWidth(text));
 		int yOff = verticalAlignment.offset(CLIENT.textRenderer.fontHeight);
