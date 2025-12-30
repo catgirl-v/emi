@@ -16,15 +16,14 @@ public class JemiCategory extends EmiRecipeCategory {
 
 	public JemiCategory(IRecipeCategory<?> category) {
 		super(category.getRecipeType().getUid(), (raw, x, y, delta) -> {});
-		this.icon = (raw, x, y, delta) -> {
-			EmiDrawContext context = EmiDrawContext.wrap(raw);
+		this.icon = (context, x, y, delta) -> {
 			IDrawable icon = category.getIcon();
 			if (icon != null) {
 				icon.draw(context.raw(), x + (16 - icon.getWidth()) / 2, y + (16 - icon.getHeight()) / 2);
 			} else {
 				List<EmiIngredient> workstations = EmiApi.getRecipeManager().getWorkstations(this);
 				if (!workstations.isEmpty()) {
-					workstations.get(0).render(context.raw(), x, y, delta, EmiIngredient.RENDER_ICON);
+					workstations.get(0).render(context, x, y, delta, EmiIngredient.RENDER_ICON);
 				} else {
 					String title = category.getTitle().getString();
 					context.drawCenteredTextWithShadow(EmiPort.literal(title.substring(0, Math.min(2, title.length()))), x + 8, y + 2);

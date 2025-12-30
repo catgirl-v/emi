@@ -24,10 +24,10 @@ import dev.emi.emi.EmiPort;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.platform.EmiAgnos;
+import dev.emi.emi.runtime.EmiDrawContext;
 import dev.emi.emi.runtime.EmiLog;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.VertexBuffer;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.DiffuseLighting;
@@ -89,7 +89,7 @@ public class StackBatcher {
 		boolean isSideLit();
 		boolean isUnbatchable();
 		void setUnbatchable();
-		void renderForBatch(VertexConsumerProvider vcp, DrawContext draw, int x, int y, int z, float delta);
+		void renderForBatch(VertexConsumerProvider vcp, EmiDrawContext context, int x, int y, int z, float delta);
 	}
 
 	private final BatcherVertexConsumerProvider imm;
@@ -149,10 +149,10 @@ public class StackBatcher {
 		}
 	}
 
-	public void render(Batchable batchable, DrawContext draw, int x, int y, float delta) {
+	public void render(Batchable batchable, EmiDrawContext context, int x, int y, float delta) {
 		if (!populated) {
 			try {
-				batchable.renderForBatch(batchable.isSideLit() ? imm : unlitFacade, draw, x-this.x, y+this.y, z, delta);
+				batchable.renderForBatch(batchable.isSideLit() ? imm : unlitFacade, context, x-this.x, y+this.y, z, delta);
 			} catch (Throwable t) {
 				if (EmiConfig.devMode) {
 					EmiLog.error("Batchable threw exception during batched rendering. See log for info", t);
@@ -162,15 +162,15 @@ public class StackBatcher {
 		}
 	}
 
-	public void render(EmiIngredient stack, DrawContext draw, int x, int y, float delta) {
-		render(stack, draw, x, y, delta, -1 ^ EmiIngredient.RENDER_AMOUNT);
+	public void render(EmiIngredient stack, EmiDrawContext context, int x, int y, float delta) {
+		render(stack, context, x, y, delta, -1 ^ EmiIngredient.RENDER_AMOUNT);
 	}
 
-	public void render(EmiIngredient stack, DrawContext draw, int x, int y, float delta, int flags) {
+	public void render(EmiIngredient stack, EmiDrawContext context, int x, int y, float delta, int flags) {
 		if (stack instanceof Batchable b && !b.isUnbatchable() && isEnabled() && (flags & EmiIngredient.RENDER_ICON) != 0) {
 			if (!populated) {
 				try {
-					b.renderForBatch(b.isSideLit() ? imm : unlitFacade, draw, x-this.x, -y-this.y, z, delta);
+					b.renderForBatch(b.isSideLit() ? imm : unlitFacade, context, x-this.x, -y-this.y, z, delta);
 					if (sodiumSpriteHandle != null && !stack.isEmpty()) {
 						ItemStack is = stack.getEmiStacks().get(0).getItemStack();
 						MinecraftClient client = MinecraftClient.getInstance();
@@ -191,9 +191,9 @@ public class StackBatcher {
 					b.setUnbatchable();
 				}
 			}
-			stack.render(draw, x, y, delta, flags & (~EmiIngredient.RENDER_ICON));
+			stack.render(context, x, y, delta, flags & (~EmiIngredient.RENDER_ICON));
 		} else {
-			stack.render(draw, x, y, delta, flags);
+			stack.render(context, x, y, delta, flags);
 		}
 	}
 

@@ -15,7 +15,6 @@ import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.mixin.accessor.HandledScreenAccessor;
 import dev.emi.emi.runtime.EmiDrawContext;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.screen.ScreenHandler;
@@ -32,7 +31,7 @@ public interface EmiDragDropHandler<T extends Screen> {
 	/**
 	 * Called when a stack is being dragged.
 	 */
-	default void render(T screen, EmiIngredient dragged, DrawContext draw, int mouseX, int mouseY, float delta) {
+	default void render(T screen, EmiIngredient dragged, EmiDrawContext context, int mouseX, int mouseY, float delta) {
 	}
 
 	/**
@@ -67,8 +66,7 @@ public interface EmiDragDropHandler<T extends Screen> {
 		}
 
 		@Override
-		public void render(T screen, EmiIngredient dragged, DrawContext draw, int mouseX, int mouseY, float delta) {
-			EmiDrawContext context = EmiDrawContext.wrap(draw);
+		public void render(T screen, EmiIngredient dragged, EmiDrawContext context, int mouseX, int mouseY, float delta) {
 			for (Bounds b : bounds.apply(screen).keySet()) {
 				context.fill(b.x(), b.y(), b.width(), b.height(), 0x8822BB33);
 			}
