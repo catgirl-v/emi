@@ -8,7 +8,7 @@ import com.google.common.collect.Maps;
 
 import dev.emi.emi.api.EmiDragDropHandler;
 import dev.emi.emi.api.stack.EmiIngredient;
-import net.minecraft.client.gui.DrawContext;
+import dev.emi.emi.runtime.EmiDrawContext;
 import net.minecraft.client.gui.screen.Screen;
 
 public class EmiDragDropHandlers {
@@ -21,14 +21,14 @@ public class EmiDragDropHandlers {
 	}
 
 	@SuppressWarnings({"unchecked", "rawtypes"})
-	public static void render(Screen screen, EmiIngredient stack, DrawContext draw, int mouseX, int mouseY, float delta) {
+	public static void render(Screen screen, EmiIngredient stack, EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		if (fromClass.containsKey(screen.getClass())) {
 			for (EmiDragDropHandler handler : fromClass.get(screen.getClass())) {
-				handler.render(screen, stack, draw, mouseX, mouseY, delta);
+				handler.render(screen, stack, context, mouseX, mouseY, delta);
 			}
 		}
 		for (EmiDragDropHandler handler : generic) {
-			handler.render(screen, stack, draw, mouseX, mouseY, delta);
+			handler.render(screen, stack, context, mouseX, mouseY, delta);
 		}
 	}
 	
