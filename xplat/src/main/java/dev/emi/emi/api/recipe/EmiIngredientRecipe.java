@@ -10,7 +10,6 @@ import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import dev.emi.emi.bom.BoM;
 import dev.emi.emi.runtime.EmiDrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 
 /**
  * Represents a recipe that disambiguates an ingredient.
@@ -127,16 +126,15 @@ public abstract class EmiIngredientRecipe implements EmiRecipe {
 		}
 
 		@Override
-		public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+		public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 			if (!getStack().isEmpty()) {
-				super.render(matrices, mouseX, mouseY, delta);
+				super.render(context, mouseX, mouseY, delta);
 			}
 		}
 		
 		@Override
-		public void drawBackground(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-			super.drawBackground(matrices, mouseX, mouseY, delta);
-			EmiDrawContext context = EmiDrawContext.wrap(matrices);
+		public void drawBackground(EmiDrawContext context, int mouseX, int mouseY, float delta) {
+			super.drawBackground(context, mouseX, mouseY, delta);
 			if (BoM.getRecipe(getIngredient()) instanceof EmiResolutionRecipe err && err.stack.equals(getStack())) {
 				context.drawTexture(EmiRenderHelper.WIDGETS, x, y, 36, 128, 18, 18);
 			}

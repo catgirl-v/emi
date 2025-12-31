@@ -189,8 +189,8 @@ public class BoMScreen extends Screen {
 	}
 
 	@Override
-	public void render(MatrixStack raw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+ 	public void render(MatrixStack raw, int mouseX, int mouseY, float delta) {
+ 		EmiDrawContext context = EmiDrawContext.wrap(raw);
 		this.renderBackgroundTexture(0);
 		lastMouseX = mouseX;
 		lastMouseY = mouseY;
@@ -560,7 +560,7 @@ public class BoMScreen extends Screen {
 		}
 
 		public void render(EmiDrawContext context) {
-			batcher.render(cost.ingredient, context.raw(), x, y, 0, ~(EmiIngredient.RENDER_AMOUNT | EmiIngredient.RENDER_REMAINDER));
+			batcher.render(cost.ingredient, context, x, y, 0, ~(EmiIngredient.RENDER_AMOUNT | EmiIngredient.RENDER_REMAINDER));
 			EmiRenderHelper.renderAmount(context, x, y, getAmountText());
 		}
 
@@ -716,15 +716,15 @@ public class BoMScreen extends Screen {
 				drawLine(context, lx, hy, hx, hy);
 				EmiRecipeCategory cat = node.recipe.getCategory();
 				if (StackBatcher.isEnabled() && EmiRecipeCategoryProperties.getSimplifiedIcon(cat) instanceof Batchable b) {
-					batcher.render(b, context.raw(), x - 18 + midOffset, y - 8, delta);
+					batcher.render(b, context, x - 18 + midOffset, y - 8, delta);
 				} else {
-					cat.renderSimplified(context.raw(), x - 18 + midOffset, y - 8, delta);
+					cat.renderSimplified(context, x - 18 + midOffset, y - 8, delta);
 				}
 				xo = 11;
 				context.pop();
 			}
 			context.setColor(1f, 1f, 1f, 1f);
-			batcher.render(node.ingredient, context.raw(), x + xo - 8 + midOffset, y - 8, 0);
+			batcher.render(node.ingredient, context, x + xo - 8 + midOffset, y - 8, 0);
 			EmiRenderHelper.renderAmount(context, x + xo - 8 + midOffset, y - 8, getAmountText());
 		}
 
