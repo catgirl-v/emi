@@ -2,7 +2,6 @@ package dev.emi.emi.api.widget;
 
 import dev.emi.emi.EmiRenderHelper;
 import dev.emi.emi.runtime.EmiDrawContext;
-import net.minecraft.client.util.math.MatrixStack;
 
 public class FillingArrowWidget extends AnimatedTextureWidget {
 
@@ -11,9 +10,8 @@ public class FillingArrowWidget extends AnimatedTextureWidget {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(matrices);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		context.drawTexture(this.texture, x, y, width, height, u, 0, regionWidth, regionHeight, textureWidth, textureHeight);
-		super.render(context.raw(), mouseX, mouseY, delta);
+		super.render(context, mouseX, mouseY, delta);
 	}
 }

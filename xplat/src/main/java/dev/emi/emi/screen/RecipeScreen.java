@@ -179,7 +179,7 @@ public class RecipeScreen extends Screen {
 			int sOff = (i == this.tab ? 2 : 0);
 			EmiRenderHelper.drawNinePatch(context, TEXTURE, x + tabOff + off * 24 + 16, y - 24 - sOff, 24, 27 + sOff,
 				i == this.tab ? 9 : 18, 0, 4, 1);
-			tab.category.render(context.raw(), x + tabOff + off++ * 24 + 20, y - 20 - (i == this.tab ? 2 : 0), delta);
+			tab.category.render(context, x + tabOff + off++ * 24 + 20, y - 20 - (i == this.tab ? 2 : 0), delta);
 		}
 
 		EmiRenderHelper.drawNinePatch(context, TEXTURE, x + 19 + buttonOff, y + 5, minimumWidth - 38, 12, 0, 16, 3, 6);
@@ -252,7 +252,7 @@ public class RecipeScreen extends Screen {
 		EmiScreenManager.drawForeground(context, mouseX, mouseY, delta);
 		super.render(context.raw(), mouseX, mouseY, delta);
 		if (categoryHovered) {
-			this.renderTooltip(context.raw(), List.of(
+			context.drawTooltip(List.of(
 				tab.category.getName(),
 				EmiPort.translatable("emi.view_all_recipes")
 			), mouseX, mouseY);

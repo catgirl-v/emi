@@ -840,8 +840,7 @@ public class VanillaPlugin implements EmiPlugin {
 	}
 
 	private static EmiRenderable simplifiedRenderer(int u, int v) {
-		return (raw, x, y, delta) -> {
-			EmiDrawContext context = EmiDrawContext.wrap(raw);
+		return (context, x, y, delta) -> {
 			context.drawTexture(EmiRenderHelper.WIDGETS, x, y, u, v, 16, 16);
 		};
 	}

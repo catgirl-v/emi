@@ -40,8 +40,7 @@ public class RecipeButtonWidget extends Widget {
 	}
 
 	@Override
-	public void render(MatrixStack raw, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		context.resetColor();
 		context.drawTexture(EmiRenderHelper.BUTTONS, x, y, 12, 12, u, v + getTextureOffset(mouseX, mouseY), 12, 12, 256, 256);
 	}

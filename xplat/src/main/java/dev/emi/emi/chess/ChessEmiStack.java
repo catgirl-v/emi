@@ -26,8 +26,7 @@ class ChessEmiStack extends EmiStack {
 	}
 
 	@Override
-	public void render(MatrixStack raw, int x, int y, float delta, int flags) {
-		EmiDrawContext context = EmiDrawContext.wrap(raw);
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		ChessPiece piece = EmiChess.getBoard().get(position);
 		context.enableDepthTest();
 		EmiChess chess = EmiChess.get();

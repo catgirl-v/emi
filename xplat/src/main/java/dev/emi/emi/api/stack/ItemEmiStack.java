@@ -94,8 +94,7 @@ public class ItemEmiStack extends EmiStack implements Batchable {
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int x, int y, float delta, int flags) {
-		EmiDrawContext context = EmiDrawContext.wrap(matrices);
+	public void render(EmiDrawContext context, int x, int y, float delta, int flags) {
 		ItemStack stack = getItemStack();
 		if ((flags & RENDER_ICON) != 0) {
 			DiffuseLighting.enableGuiDepthLighting();
@@ -111,7 +110,7 @@ public class ItemEmiStack extends EmiStack implements Batchable {
 			EmiRenderHelper.renderAmount(context, x, y, EmiPort.literal(count));
 		}
 		if ((flags & RENDER_REMAINDER) != 0) {
-			EmiRender.renderRemainderIcon(this, context.raw(), x, y);
+			EmiRender.renderRemainderIcon(this, context, x, y);
 		}
 	}
 	
@@ -133,8 +132,7 @@ public class ItemEmiStack extends EmiStack implements Batchable {
 	}
 	
 	@Override
-	public void renderForBatch(VertexConsumerProvider vcp, MatrixStack matrices, int x, int y, int z, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(matrices);
+	public void renderForBatch(VertexConsumerProvider vcp, EmiDrawContext context, int x, int y, int z, float delta) {
 		ItemStack stack = getItemStack();
 		ItemRenderer ir = client.getItemRenderer();
 		BakedModel model = ir.getModel(stack, null, null, 0);

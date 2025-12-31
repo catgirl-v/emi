@@ -118,7 +118,7 @@ public abstract class AbstractInventoryScreenMixin<T extends ScreenHandler> exte
 		}
 		if (hovered != null && size > 1) {
 			List<Text> list = List.of(this.getStatusEffectDescription(hovered), StatusEffectUtil.durationToString(hovered, 1.0f));
-			this.renderTooltip(context.raw(), list, Optional.empty(), mouseX, Math.max(mouseY, 16));
+			context.drawTooltip(list, Optional.empty(), mouseX, Math.max(mouseY, 16));
 		}
 	}
 	
