@@ -699,7 +699,7 @@ public class EmiScreenManager {
 					int lhx = space.getRawX(lastHoveredCraftableOffset);
 					int lhy = space.getRawY(lastHoveredCraftableOffset);
 					context.fill(lhx, lhy, 18, 18, 0x44AA00FF);
-					lastHoveredCraftable.getStack().render(context.raw(), lhx + 1, lhy + 1, delta,
+					lastHoveredCraftable.getStack().render(context, lhx + 1, lhy + 1, delta,
 							EmiIngredient.RENDER_ICON);
 					view.pop();
 					EmiPort.applyModelViewMatrix();
@@ -735,8 +735,8 @@ public class EmiScreenManager {
 			}
 			context.push();
 			context.matrices().translate(0, 0, 400);
-			EmiDragDropHandlers.render(base.screen(), draggedStack, context.raw(), mouseX, mouseY, delta);
-			draggedStack.render(context.raw(), mouseX - 8, mouseY - 8, delta, EmiIngredient.RENDER_ICON);
+			EmiDragDropHandlers.render(base.screen(), draggedStack, context, mouseX, mouseY, delta);
+			draggedStack.render(context, mouseX - 8, mouseY - 8, delta, EmiIngredient.RENDER_ICON);
 			context.pop();
 		}
 	}
@@ -819,7 +819,7 @@ public class EmiScreenManager {
 				context.drawTextWithShadow(EmiPort.literal(warnCount), devTextX, screen.height - 21, color);
 				int width = Math.max(client.textRenderer.getWidth(title), client.textRenderer.getWidth(warnCount));
 				if (mouseX >= devTextX && mouseX < width + devTextX && mouseY > screen.height - 28) {
-					screen.renderTooltip(context.raw(), Stream.concat(Stream.of(" EMI detected some issues, see log for full details"),
+					context.drawTooltip(Stream.concat(Stream.of(" EMI detected some issues, see log for full details"),
 							EmiReloadLog.warnings.stream()).map(s -> {
 								String a = s;
 								if (a.length() > 10 && client.textRenderer.getWidth(a) > screen.width - 20) {
@@ -1776,7 +1776,7 @@ public class EmiScreenManager {
 						int cx = this.getX(xo, yo);
 						int cy = this.getY(xo, yo);
 						EmiIngredient stack = stacks.get(i++);
-						batcher.render(stack, context.raw(), cx + 1, cy + 1, delta);
+						batcher.render(stack, context, cx + 1, cy + 1, delta);
 						if (getType() == SidebarType.INDEX) {
 							if (EmiConfig.editMode && EmiHidden.isHidden(stack)) {
 								context.enableDepthTest();

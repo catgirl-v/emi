@@ -1,11 +1,18 @@
 package dev.emi.emi.runtime;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import dev.emi.emi.EmiPort;
 import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.mixin.accessor.ScreenAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.tooltip.TooltipComponent;
+import net.minecraft.client.gui.tooltip.TooltipPositioner;
+import net.minecraft.client.item.TooltipData;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -132,7 +139,7 @@ public class EmiDrawContext {
 	}
 
 	public void drawStack(EmiIngredient stack, int x, int y) {
-		stack.render(raw(), x, y, client.getTickDelta());
+		stack.render(this, x, y, client.getTickDelta());
 	}
 
 	public void drawStack(EmiIngredient stack, int x, int y, int flags) {
@@ -140,6 +147,23 @@ public class EmiDrawContext {
 	}
 
 	public void drawStack(EmiIngredient stack, int x, int y, float delta, int flags) {
-		stack.render(raw(), x, y, delta, flags);
+		stack.render(this, x, y, delta, flags);
+	}
+
+	public void drawTooltip(List<Text> text, Optional<TooltipData> data, int x, int y) {
+		client.currentScreen.renderTooltip(matrices, text, data, x, y);
+	}
+
+	public void drawTooltip(Text text, int x, int y) {
+		client.currentScreen.renderTooltip(matrices, text, x, y);
+	}
+
+	public void drawTooltip(List<Text> text, int x, int y) {
+		client.currentScreen.renderTooltip(matrices, text, x, y);
+	}
+
+	public void drawTooltip(List<OrderedText> text, TooltipPositioner positioner, int x, int y) {
+		List<TooltipComponent> components = text.stream().map(TooltipComponent::of).collect(Collectors.toList());
+		((ScreenAccessor) client.currentScreen).invokeRenderTooltipFromComponents(matrices, components, x, y, positioner);
 	}
 }

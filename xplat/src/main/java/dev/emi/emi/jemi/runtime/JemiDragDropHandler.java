@@ -28,9 +28,9 @@ public class JemiDragDropHandler implements EmiDragDropHandler<Screen> {
 
 	@Override
 	@SuppressWarnings({"rawtypes", "unchecked"})
-	public void render(Screen screen, EmiIngredient dragged, MatrixStack raw, int mouseX, int mouseY, float delta) {
+	public void render(Screen screen, EmiIngredient dragged, EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		try {
-			this.<Object>render(screen, EmiDrawContext.wrap(raw), (Optional<ITypedIngredient<Object>>) (Optional) JemiUtil.getTyped(dragged.getEmiStacks().get(0)));
+			this.<Object>render(screen, context, (Optional<ITypedIngredient<Object>>) (Optional) JemiUtil.getTyped(dragged.getEmiStacks().get(0)));
 		} catch (Exception e) {
 		}
 	}

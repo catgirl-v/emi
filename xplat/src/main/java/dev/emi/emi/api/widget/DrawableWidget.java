@@ -37,16 +37,15 @@ public class DrawableWidget extends Widget implements WidgetTooltipHolder<Drawab
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(matrices);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		context.push();
 		context.matrices().translate(x, y, 0);
-		consumer.render(context.raw(), mouseX, mouseY, delta);
+		consumer.render(context, mouseX, mouseY, delta);
 		context.pop();
 	}
 
 	public static interface DrawableWidgetConsumer {
 
-		void render(MatrixStack matrices, int mouseX, int mouseY, float delta);
+		void render(EmiDrawContext context, int mouseX, int mouseY, float delta);
 	}
 }

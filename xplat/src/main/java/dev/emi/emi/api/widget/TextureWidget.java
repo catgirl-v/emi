@@ -53,8 +53,7 @@ public class TextureWidget extends Widget implements WidgetTooltipHolder<Texture
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-		EmiDrawContext context = EmiDrawContext.wrap(matrices);
+	public void render(EmiDrawContext context, int mouseX, int mouseY, float delta) {
 		context.resetColor();
 		context.drawTexture(texture, x, y, width, height, u, v, regionWidth, regionHeight, textureWidth, textureHeight);
 	}	
